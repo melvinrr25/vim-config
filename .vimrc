@@ -4,9 +4,10 @@ set t_Co=256
 set ignorecase
 set smartcase
 
-"colorscheme molokai
-colorscheme molokai
 colorscheme onehalfdark
+"colorscheme light
+colorscheme molokai
+"colorscheme vsc
 
 " Vim plug initialization
 call plug#begin('~/.vim/plugged')
@@ -15,17 +16,18 @@ Plug 'crusoexia/vim-monokai'
 Plug 'pangloss/vim-javascript'
 Plug 'airblade/vim-gitgutter'
 Plug 'mileszs/ack.vim'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'matze/vim-move'
 Plug 'mxw/vim-jsx'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
+Plug 'sainnhe/sonokai'
 
 call plug#end()
 
 nnoremap <C-z> :tabprevious<CR>
 nnoremap <C-x> :tabnext<CR>
 nnoremap <C-t> :tabnew<CR>
+
 inoremap <C-z> <Esc>:tabprevious<CR>i
 inoremap <C-x> <Esc>:tabnext<CR>i
 inoremap <C-t> <Esc>:tabnew<CR>
@@ -53,19 +55,10 @@ set colorcolumn=80
 set nowrap
 set autoread                                                                                                                                                                                    
 
-" Multiple cursor
-let g:multi_cursor_use_default_mapping=0
-
-" Default mapping
-let g:multi_cursor_start_word_key      = '<C-d>'
-let g:multi_cursor_select_all_word_key = '<A-d>'
-let g:multi_cursor_start_key           = 'g<C-d>'
-let g:multi_cursor_select_all_key      = 'g<A-d>'
-let g:multi_cursor_next_key            = '<C-d>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
 let g:indentLine_color_term = 238
+
+set conceallevel=1
+let g:indentLine_conceallevel=1
 
 let c='a'
 while c <= 'z'
@@ -95,16 +88,18 @@ set wildmenu
 
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pdf,*.psd
-set wildignore+=node_modules/*,bower_components/*
+set wildignore+=node_modules/*,bower_components/*,tmp/
 "set wildmode=longest:full,full
 
-nnoremap <F2> @=':e **/*'<CR>
-nnoremap <F3> @=':!nautilus %:p:h'<CR>
-nnoremap <F4> @=':set syntax='<CR>
-nnoremap <F5> @='mmgg=G`m'<CR>
-nnoremap <F6> @=':e %:p:h'<CR>
-nnoremap <F7> @=':%!python -m json.tool'<CR>
-nnoremap <F8> @=':source ~/.vimrc'<CR>
+nnoremap 0 <Esc>:tabnew \| e **/*
+
+nnoremap 2 @=':e **/*'<CR>
+nnoremap 3 @=':!nautilus %:p:h'<CR>
+nnoremap 4 @=':set syntax='<CR>
+nnoremap 5 @='mmgg=G`m'<CR>
+nnoremap 6 @=':e %:p:h'<CR>
+nnoremap 7 @=':%!python -m json.tool'<CR>
+nnoremap 8 @=':source ~/.vimrc'<CR>
 nmap cp :let @" = expand("%")<cr>
 
 nmap =j2 :%!python -c "import json, sys, collections; print json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), indent=2)" <CR>
@@ -121,7 +116,6 @@ set autoindent
 :set switchbuf+=usetab,newtab
 let mapleader = ','
 
-autocmd BufRead,FileChangedShell * syn match parens /[||()\[\]{}]/ | hi parens ctermfg=221
 
 nnoremap ,html :-1read ~/.vim/snippets/basic<CR>8ja
 nnoremap ,ajax :-1read ~/.vim/snippets/ajax<CR>1jf'a
@@ -137,13 +131,12 @@ nnoremap ,np :set nopaste<cr>
 nnoremap ,f :vimgrep /<C-r><C-w>\c/ ./**
 map <F9> :execute "vimgrep /" .expand("<cword>") . "/j **" <Bar> cw<CR>
 map <F10> :%s///gc<left><left><left><left>
+com! FormatJSON %!python -m json.tool
 nnoremap ,w :vimgrep /\c/ ./**<left><left><left><left><left><left><left><left> 
 nnoremap ,d :tabe %:p:h <Bar> cw<CR>
 
-nnoremap ,k :call ThisIsATest() <CR><ESC>a
+highlight Type ctermfg=147 cterm=NONE
+autocmd BufRead,FileChangedShell * syn match parens /[||()\[\]{}]/ | hi parens ctermfg=220
 
-func! ThisIsATest()
-  exe "normal! imelvin"
-endfunc
-
+vmap '' :w !pbcopy<CR><CR>
 
