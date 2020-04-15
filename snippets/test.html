@@ -1,0 +1,7 @@
+def find_user_by_role(role)
+  return User.new if role.nil?
+  return nil if role.is_a? NilClass
+  User.find_by_role(role)
+  params[:hahaha] 
+end
+

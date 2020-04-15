@@ -1,0 +1,18 @@
+function ajaxCall(){
+  var url = '';
+  $.ajax({
+    url: url,
+    type: 'POST',
+    data: { },
+    success: successAjax,
+    error: errorAjax,
+  });
+}
+
+function successAjax(){
+
+}
+
+function errorAjax(){
+
+}
