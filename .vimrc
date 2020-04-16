@@ -127,11 +127,16 @@ nnoremap ,gd :! clear && git diff --word-diff %:p:h<cr>
 nnoremap ,diff :! clear && git diff --word-diff<cr>
 nnoremap ,p :set paste<cr>
 nnoremap ,np :set nopaste<cr>
-"nnoremap ,f :vimgrep /\c/ ./**
-nnoremap ,f :vimgrep /<C-r><C-w>\c/ ./**
+nnoremap ,f :vimgrep /<C-r><C-w>\c/ ./**<left><left>
+
+set wildcharm=<C-z>
+"nnoremap ,gf :tabnew **/*<C-r><C-w><C-z>
+nnoremap ,gf :!~/.vim/copy.py <C-r><C-w><CR>:tabnew **/*<C-R>+
+
+
 map <F9> :execute "vimgrep /" .expand("<cword>") . "/j **" <Bar> cw<CR>
 map <F10> :%s///gc<left><left><left><left>
-com! FormatJSON %!python -m json.tool
+com! FormatJSON %!python -m json.tool 
 nnoremap ,w :vimgrep /\c/ ./**<left><left><left><left><left><left><left><left> 
 nnoremap ,d :tabe %:p:h <Bar> cw<CR>
 
