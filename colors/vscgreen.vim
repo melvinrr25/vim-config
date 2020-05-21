@@ -7,9 +7,8 @@ endif
 set background=dark
 let g:colors_name = 'vsc'
 
-"highlight  Normal        ctermfg=251   ctermbg=235 cterm=NONE
-"highlight  Normal        ctermfg=117    ctermbg=235 
-highlight  Normal        ctermfg=117    ctermbg=236
+"highlight  Normal        ctermfg=71    ctermbg= 234
+highlight  Normal        ctermfg=71    ctermbg=236
 highlight  Cursor        ctermfg=16    ctermbg=226
 highlight  DiffAdd       ctermfg=16    ctermbg=223
 highlight  DiffChange    ctermfg=16    ctermbg=117
@@ -49,45 +48,44 @@ highlight  CursorColumn      ctermbg=238  ctermfg=NONE
 " 114: material green
 
 " Comment -> comments
-highlight Comment ctermfg=65 
+highlight Comment ctermfg=8
 
 " Constant -> string content + symbols + true/false & more
-highlight Constant ctermfg=69 cterm=NONE 
+highlight Constant ctermfg=43 cterm=NONE 
 
 " Indentifier -> Parameter in the block - variable Ruby
-"highlight Identifier ctermfg=204 cterm=NONE "red/pink
-highlight Identifier ctermfg=113 cterm=NONE
+highlight Identifier ctermfg=142 cterm=NONE
 
 " Function -> methods name -> sort of red
-highlight Function ctermfg=203 cterm=NONE
+highlight Function ctermfg=48 cterm=NONE
 
 " Statement -> if/unless/end return
-highlight Statement ctermfg=69 cterm=NONE
+highlight Statement ctermfg=48 cterm=NONE
 
 " Preproc -> def/end class words
-highlight PreProc ctermfg=141 cterm=NONE
+highlight PreProc ctermfg=48 cterm=NONE
 
 " Special -> Quotes arround the String 
-highlight Special ctermfg=210 cterm=NONE 
+highlight Special ctermfg=64 cterm=NONE 
 
 highlight Ignore ctermfg=241 cterm=NONE 
 
 highlight Todo ctermfg=114 cterm=NONE
 
 " Type Class/Modules names
-highlight Type ctermfg=141 cterm=NONE
+highlight Type ctermfg=40 cterm=NONE
 
-highlight Number ctermfg=221 cterm=NONE
+highlight Number ctermfg=48 cterm=NONE
 
-highlight String ctermfg=173 cterm=NONE
+highlight String ctermfg=178 cterm=NONE
 
-highlight Boolean ctermfg=141 cterm=NONE
+highlight Boolean ctermfg=73 cterm=NONE
 
-highlight Operator ctermfg=72 cterm=NONE
+highlight Operator ctermfg=48 cterm=NONE
 
-highlight Character ctermfg=11 cterm=NONE
+highlight Character ctermfg=48 cterm=NONE
 
-highlight Tag ctermfg=11 cterm=NONE
+highlight Tag ctermfg=48 cterm=NONE
 
 
 
