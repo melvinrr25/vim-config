@@ -231,11 +231,14 @@ vnoremap <S-Up> :m '<-2<CR>gv=gv
 command! -nargs=+ R execute '%s/\<' . split(<q-args>, ' ')[0] . '\>/' . split(<q-args>, ' ')[1] . '/g'
 
 set statusline=\ %F%m%r%h%w\ %([%l,%v][%p%%]\ %)
+set statusline+=Lines:
+set statusline+=%L
 hi StatusLine ctermbg=0 ctermfg=7
 
 noremap <S-z> {
 noremap <S-x> }
 noremap <space> :b <right>
 noremap <C-S-h> :reg <CR>
+noremap <TAB> <C-W><C-W>
 
 set t_md=
