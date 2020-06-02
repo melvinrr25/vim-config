@@ -8,8 +8,6 @@ set backspace=2
 set shortmess-=S
 let mapleader = ","
 
-colorscheme gruvbox
-
 if $TERM == "xterm-256color"
   set t_Co=256
 endif
@@ -23,9 +21,11 @@ Plug 'mxw/vim-jsx'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
 Plug 'vim-python/python-syntax'
-"Plug 'vim-syntastic/syntastic'
-"Plug 'davidhalter/jedi-vim'
+Plug 'morhetz/gruvbox'
 call plug#end()
+
+colorscheme gruvbox
+set background=dark
 
 nnoremap <C-z> :tabprevious<CR>
 nnoremap <C-x> :tabnext<CR>
@@ -236,4 +236,6 @@ hi StatusLine ctermbg=0 ctermfg=7
 noremap <S-z> {
 noremap <S-x> }
 noremap <space> :b <right>
-noremap <tab> <C-W><C-W>
+noremap <C-S-h> :reg <CR>
+
+set t_md=
