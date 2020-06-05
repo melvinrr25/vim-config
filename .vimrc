@@ -1,11 +1,15 @@
 syntax enable
 set relativenumber
+set noswapfile
+set backspace=2
 set number
 set ignorecase
 set smartcase
-set noswapfile
-set backspace=2
 set shortmess-=S
+set title
+set showtabline=2
+set hidden
+
 let mapleader = ","
 
 if $TERM == "xterm-256color"
@@ -16,7 +20,7 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'pangloss/vim-javascript'
 Plug 'airblade/vim-gitgutter'
-Plug 'matze/vim-move'
+"Plug 'matze/vim-move'
 Plug 'mxw/vim-jsx'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
@@ -26,6 +30,12 @@ call plug#end()
 
 colorscheme gruvbox
 set background=dark
+
+set statusline=\ %F%m%r%h%w\ %([%l,%v][%p%%]\ %)
+set statusline+=lines:
+set statusline+=%L
+set t_md=
+set runtimepath^=~/.vim/bundle/myplugin.vim
 
 nnoremap <C-z> :tabprevious<CR>
 nnoremap <C-x> :tabnext<CR>
@@ -39,17 +49,13 @@ nnoremap <S-Up> :m-2<CR>
 nnoremap <S-Down> :m+<CR>
 inoremap <S-Up> <Esc>:m-2<CR>
 inoremap <S-Down> <Esc>:m+<CR>
-nnoremap ,s :%s/\<<C-r><C-w>\>/
+nnoremap ,s :%s/\<<C-R><C-w>\>/<C-R><C-w>
 
 "################
 noremap ,' viwc''<Esc><left>p<right>i
 noremap ," viwc""<Esc><left>p<right>i
 vmap ," viwc""<Esc><left>p<right>i
 "################
-
-" Custom settings
-let g:monokai_term_italic = 1
-let g:monokai_gui_italic = 1
 
 set updatetime=100
 " Search
@@ -107,11 +113,11 @@ set expandtab
 set autoindent
 
 let g:indentLine_color_term = 238
-set conceallevel=2
 let g:indentLine_conceallevel=2
 let g:indentLine_char = '|'
+set conceallevel=2
 
-:set switchbuf+=usetab,newtab
+set switchbuf+=usetab,newtab
 
 nnoremap ,ajax :-1read ~/.vim/snippets/ajax<CR>1jf'a
 nnoremap ,div :-1read ~/.vim/snippets/div<CR>f>a
@@ -119,23 +125,19 @@ nnoremap ,t :-1read ~/.vim/snippets/tag-html<CR>a
 nnoremap ,def :-1read ~/.vim/snippets/ruby-method<CR>A
 nnoremap ,gd :! clear && git diff --word-diff %:p:h<cr>
 nnoremap ,diff :! clear && git diff --word-diff<cr>
-nnoremap ,f :vimgrep /<C-r><C-w>\c/ ./**<left><left>
+
+nnoremap ,f :grep -R --exclude-dir={./log,./tmp} '<C-R><C-w>' ./**<left><left>
+vnoremap ,f y:grep -R --exclude-dir={./log,./tmp} '<C-R>"' ./**
 
 nnoremap <leader>l :call QuickfixToggle()<cr>
 
 set wildcharm=<C-z>
-"nnoremap ,gf :tabnew **/*<C-r><C-w><C-z>
-nnoremap ,gf :!~/.vim/copy.py <C-r><C-w><CR>:tabnew **/*<C-R>+
+nnoremap ,gf :!~/.vim/copy.py <C-R><C-w><CR>:tabnew **/*<C-R>+
 
-
-map <F9> :execute "vimgrep /" .expand("<cword>") . "/j **" <Bar> cw<CR>
-map <F10> :%s///gc<left><left><left><left>
 com! FormatJSON %!python -m json.tool 
 nnoremap ,d :tabe %:p:h <Bar> cw<CR>
 
-nnoremap ,w :vimgrep /\c/ ./**<left><left><left><left><left><left><left><left>
-
-command! -nargs=1 FF vimgrep /<args>\c/ ./**
+nnoremap ,w :grep -R --exclude-dir={./log,./tmp} '' ./**<left><left><left><left><left><left>
 
 com! QuitSession mks! ~/.vim/session.vim | qa!
 com! OpenSession source ~/.vim/session.vim
@@ -216,7 +218,6 @@ command! -range=% FormatXML <line1>,<line2>call DoFormatXML()
 nmap <silent> <leader>x :%FormatXML<CR>
 vmap <silent> <leader>x :FormatXML<CR>
 
-
 noremap <silent> <C-S-Left> :vertical resize +10<CR>
 noremap <silent> <C-S-Right> :vertical resize -10<CR>
 noremap <silent> <C-S-Up> :resize +5<CR>
@@ -230,15 +231,31 @@ vnoremap <S-Up> :m '<-2<CR>gv=gv
 
 command! -nargs=+ R execute '%s/\<' . split(<q-args>, ' ')[0] . '\>/' . split(<q-args>, ' ')[1] . '/g'
 
-set statusline=\ %F%m%r%h%w\ %([%l,%v][%p%%]\ %)
-set statusline+=Lines:
-set statusline+=%L
+
 hi StatusLine ctermbg=0 ctermfg=7
 
-noremap <S-z> {
-noremap <S-x> }
 noremap <space> :b <right>
 noremap <C-S-h> :reg <CR>
 noremap <TAB> <C-W><C-W>
+vnoremap // y/<C-R>"<CR>
 
-set t_md=
+noremap -- zf
+noremap ++ za
+
+nmap <S-z> <Plug>(GitGutterNextHunk)
+nmap <S-x> <Plug>(GitGutterPrevHunk)
+nmap ,, <Plug>(GitGutterPreviewHunk)
+nmap ,+ <Plug>(GitGutterStageHunk)
+nmap ,- <Plug>(GitGutterUndoHunk)
+
+noremap ,r :!clear && ruby %
+noremap <C-S-f> :args `grep --exclude-dir={./log,./tmp} -lrw '' .`<left><left><left><left>
+noremap <C-S-r> :silent argdo %s///ge <BAR> update <left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+
+func! Count()
+  normal! <C-U>y
+  let l:w = @" 
+  echon len(l:w) 
+endfunc
+
+command! CountChars call Count()
