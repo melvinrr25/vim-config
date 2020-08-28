@@ -24,12 +24,7 @@ function! GoToFile()
   else
     let l:final = join(l:chars_list, '')
   endif
-  execute 'tabe **/*' . l:final
+  let @" = 'tabe **/*' . l:final
 endfunction
 
-"noremap ,ff :call GoToFile()<CR>
-
-
-
-
-
+noremap ,ff :call GoToFile()<CR>

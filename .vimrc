@@ -11,6 +11,9 @@ set showtabline=2
 set hidden
 
 let mapleader = ","
+let g:netrw_preview   = 1
+let g:netrw_liststyle = 3
+let g:netrw_winsize   = 25
 
 if $TERM == "xterm-256color"
   set t_Co=256
@@ -20,16 +23,23 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'pangloss/vim-javascript'
 Plug 'airblade/vim-gitgutter'
-"Plug 'matze/vim-move'
 Plug 'mxw/vim-jsx'
 Plug 'Valloric/MatchTagAlways'
 Plug 'Yggdroot/indentLine'
 Plug 'vim-python/python-syntax'
 Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
+Plug 'chrisbra/csv.vim'
+Plug 'neovimhaskell/haskell-vim'
 call plug#end()
 
 colorscheme gruvbox
 set background=dark
+highlight ColorColumn ctermbg=236
+set cursorline 
+highlight CursorLine   cterm=NONE ctermbg=238 ctermfg=NONE
+highlight CursorColumn cterm=NONE ctermbg=238 ctermfg=NONE
+
 
 set statusline=\ %F%m%r%h%w\ %([%l,%v][%p%%]\ %)
 set statusline+=lines:
@@ -64,7 +74,6 @@ set incsearch
 " status bar
 set laststatus=2
 
-highlight ColorColumn ctermbg=236
 set colorcolumn=80
 
 set nowrap
@@ -72,14 +81,11 @@ set autoread
 set timeout ttimeoutlen=50
 set directory^=$HOME/.vim/tmp//
 map <C-a> <esc>ggVG<CR>
+noremap <c-s> <c-u>
 
 highlight GitGutterAdd    ctermfg=10 ctermbg=235 cterm=bold
 highlight GitGutterChange ctermfg=11 ctermbg=235 cterm=bold
 highlight GitGutterDelete ctermfg=9  ctermbg=235 cterm=bold
-
-set cursorline 
-highlight CursorLine   cterm=NONE ctermbg=238 ctermfg=NONE
-highlight CursorColumn cterm=NONE ctermbg=238 ctermfg=NONE
 
 set wildmenu
 
@@ -125,12 +131,15 @@ nnoremap ,t :-1read ~/.vim/snippets/tag-html<CR>a
 nnoremap ,def :-1read ~/.vim/snippets/ruby-method<CR>A
 nnoremap ,gd :! clear && git diff --word-diff %:p:h<cr>
 nnoremap ,diff :! clear && git diff --word-diff<cr>
+nnoremap ,gv <C-w>H
+nnoremap ,gh <C-w>J
 
 nnoremap ,f :grep -R --exclude-dir={./log,./tmp} '<C-R><C-w>' ./**<left><left>
 vnoremap ,f y:grep -R --exclude-dir={./log,./tmp} '<C-R>"' ./**
 
-nnoremap <leader>l :call QuickfixToggle()<cr>
-
+nnoremap ,l :call QuickfixToggle()<cr>
+com! Wrap call WrapToggle()
+"melvimelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinn
 set wildcharm=<C-z>
 nnoremap ,gf :!~/.vim/copy.py <C-R><C-w><CR>:tabnew **/*<C-R>+
 
@@ -143,12 +152,13 @@ com! QuitSession mks! ~/.vim/session.vim | qa!
 com! OpenSession source ~/.vim/session.vim
 
 
-autocmd BufRead,FileChangedShell * syn match parens /[||()\[\]{}]/ | hi parens ctermfg=220
+autocmd VimEnter,BufWinEnter * syn match parens /[||()\[\]{}]/ | hi parens ctermfg=220
+hi def link jsObjectKey Label
 
 vmap '' :w !pbcopy<CR><CR>
 
 
-nnoremap <leader>m :Lexplore %:p:h<BAR>:vertical resize -60<CR>
+nnoremap <leader>m :Lexplore %:p:h<CR>
 nnoremap <leader>n :Lexplore<CR>
 
 let g:quickfix_is_open = 0
@@ -160,6 +170,18 @@ function! QuickfixToggle()
     else
         copen
         let g:quickfix_is_open = 1
+    endif
+endfunction
+
+let g:wrapped = 0
+
+function! WrapToggle()
+    if g:wrapped
+        let g:wrapped = 0
+        set nowrap
+    else
+        let g:wrapped = 1
+        set wrap
     endif
 endfunction
 
@@ -236,7 +258,7 @@ hi StatusLine ctermbg=0 ctermfg=7
 
 noremap <space> :b <right>
 noremap <C-S-h> :reg <CR>
-noremap <TAB> <C-W><C-W>
+noremap ( <C-W><C-W>
 vnoremap // y/<C-R>"<CR>
 
 noremap -- zf
@@ -249,13 +271,135 @@ nmap ,+ <Plug>(GitGutterStageHunk)
 nmap ,- <Plug>(GitGutterUndoHunk)
 
 noremap ,r :!clear && ruby %
+noremap ,rc :!clear && ruby -wc %
 noremap <C-S-f> :args `grep --exclude-dir={./log,./tmp} -lrw '' .`<left><left><left><left>
-noremap <C-S-r> :silent argdo %s///ge <BAR> update <left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+noremap ,do :silent argdo %s///ge <BAR> update <left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+noremap ,/ q/
+noremap ,: q:
+noremap ,q :qa!<CR>
 
 func! Count()
-  normal! <C-U>y
-  let l:w = @" 
-  echon len(l:w) 
+  echon len(@") 
 endfunc
 
 command! CountChars call Count()
+
+noremap ,bs :call ReMapper()<CR>
+
+function! ReMapper()
+  let @" = '\'
+  echon 'Copied -> \'
+endfunction
+
+function! Diffnext()
+  norm! ]c<Cr>
+endfunction
+
+function! Diffprev()
+  norm! [c<Cr>
+endfunction
+
+command! Diffprev call Diffprev()
+command! Diffnext call Diffnext()
+
+noremap ,<RIGHT> :call Diffnext()<CR>
+noremap ,<LEFT> :call Diffprev()<CR>
+
+function! QuickFixOpenAll()
+    if empty(getqflist())
+        return
+    endif
+    let s:prev_val = ""
+    for d in getqflist()
+        let s:curr_val = bufname(d.bufnr)
+        if (s:curr_val != s:prev_val)
+            exec "tabe " . s:curr_val
+        endif
+        let s:prev_val = s:curr_val
+    endfor
+endfunction
+
+command! QuickFixOpenAll call QuickFixOpenAll()
+
+func! HtmlTag(tag)
+  let @" = '<'. a:tag .' class=""></'. a:tag .'>'
+endfun
+
+func! AwesomeFinder(words)
+  let s:commands = split(a:words, ' ')
+  let s:userWords = s:commands[0]
+
+  try
+    let s:flag = s:commands[1]
+  catch
+    let s:flag = ''
+  endtry
+
+  if s:userWords =~ "|"
+    let s:list = split(s:userWords, '|') 
+    let s:formattedList = []
+
+    for entry in s:list 
+      if s:flag == '--all'
+        let s:x = entry
+      else
+        let s:x = '\<'.entry.'\>'
+      endif
+      call add(s:formattedList, s:x)
+    endfor
+
+    let s:res = join(s:formattedList, '\|')
+
+    let @/ = s:res
+    return
+  endif
+
+  if s:userWords =~ "&"
+    let s:list = split(s:userWords, '&') 
+    let s:formattedList = []
+
+    for entry in s:list 
+      let s:x = '.*'.entry
+      call add(s:formattedList, s:x)
+    endfor
+
+    let s:res = join(s:formattedList, '\&')
+    let @/ = s:res
+    return
+  endif
+
+  let @/ = s:userWords
+endfun
+
+command! -nargs=1 Find call AwesomeFinder(<f-args>) | normal n
+
+command! -nargs=1 Html call HtmlTag(<f-args>) | normal p0f>OC==
+
+noremap ,gb  :execute "!clear && git blame " . expand('%') . " -L" . line(".") .",". (line(".") + 10)<CR>
+noremap ,gb  :execute "!clear && git blame " . expand('%') . " -L" . line(".") .",". (line(".") + 10)<CR>
+"noremap ,gbl :execute "!clear && git blame " . expand('%') . " -L" . line(".") ." | awk 'NR==1 {print $1}' | xargs git logd -" . line(".")<CR>
+ 
+noremap ,try :call RailsTry()<CR><bar>C<ESC>"xp
+
+func! RailsTry()
+  let s:line = getline('.')
+  let s:list = split(s:line, '\.')
+
+  let s:newList = []
+  let s:first = 0
+
+  for entry in s:list
+    
+    if s:first == 0
+      let s:x = entry
+      let s:first = 1
+    else
+      let s:x = entry . ')'
+    endif
+
+    call add(s:newList, s:x)
+  endfor
+
+  let s:res = join(s:newList, '.try(:')
+  let @x = s:res
+endfun
