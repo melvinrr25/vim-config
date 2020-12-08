@@ -28,3 +28,12 @@ function! GoToFile()
 endfunction
 
 noremap ,ff :call GoToFile()<CR>
+
+function! ExtractSelectedText()
+  let l:test = getreg('"')
+  silent execute "!echo " . l:test . ">>  ~/.vim/rubocop.rb"
+endfunction
+
+command! Rubocop call ExtractSelectedText()
+
+

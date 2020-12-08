@@ -1,0 +1,16 @@
+headers  = [ 'Referral Number', 'Involved ID' ];
+
+ids = []
+
+query = Referral.where(id: ids);
+
+csv = CSV.generate(headers: true) { |writer| 
+  writer << headers 
+    query.each { | r | 
+    row = [r.id, "´#{r.special_attrs_hash[:api_insured_involved_id]}´"];
+    row = row.map{|entry| text = entry.to_s.gsub(',', ''); text.to_s == "" ? nil : text }
+    writer << row
+  }
+}
+
+Mailer.send_csv_report('mrodriguez@danestreet.com', csv, 'allstate-involved-ids').deliver

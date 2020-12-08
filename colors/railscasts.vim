@@ -12,8 +12,9 @@ endif
 let g:colors_name = "railscasts"
 
 hi Normal                    guifg=#e4e4e4 guibg=#121212 ctermfg=254 ctermbg=234
-hi Search                    guifg=#000000 guibg=#5f5f87 ctermfg=220 ctermbg=56 cterm=NONE
+hi Search                    guifg=#000000 guibg=#5f5f87 ctermfg=190 ctermbg=100 cterm=NONE
 hi Visual                    guibg=#5f5f87 ctermbg=60
+hi QuickFixLine              ctermbg=52 ctermfg=15
 hi LineNr                    guifg=#666666 ctermfg=242
 hi Cursor                    guifg=#000000 guibg=#FFFFFF ctermfg=0 ctermbg=15
 hi CursorLine                guibg=#1c1c1c gui=NONE ctermbg=234 cterm=NONE
@@ -25,20 +26,13 @@ hi SignColumn                guifg=#FFFFFF guibg=NONE ctermfg=15 ctermbg=NONE
 
 " StatusLine
 " Bold
-hi User1                     guifg=#eeeeee guibg=#606060 gui=bold ctermfg=255 ctermbg=241 cterm=bold
+hi User1                     guifg=#eeeeee guibg=#606060 gui=bold ctermfg=255 ctermbg=241 
 " Yellow
-hi User2                     guifg=#FFAF00 guibg=#606060 gui=bold ctermfg=214 ctermbg=241 cterm=bold
+hi User2                     guifg=#FFAF00 guibg=#606060 gui=bold ctermfg=214 ctermbg=241 
 " Green
-hi User3                     guifg=#5fff00 guibg=#606060 gui=bold ctermfg=82 ctermbg=241 cterm=bold
+hi User3                     guifg=#5fff00 guibg=#606060 gui=bold ctermfg=82 ctermbg=241 
 " Red
-hi User4                     guifg=#870000 guibg=#606060 gui=bold ctermfg=88 ctermbg=241 cterm=bold
-hi User5                     guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi User6                     guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi User7                     guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi User8                     guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi User9                     guifg=#e4e4e4 guibg=#606060 gui=bold ctermfg=254 ctermbg=241 cterm=bold
-hi StatusLine                guifg=#e4e4e4 guibg=#606060 gui=NONE ctermfg=254 ctermbg=241 cterm=NONE
-hi StatusLineNC              guifg=#585858 guibg=#303030 gui=NONE ctermfg=240 ctermbg=236 cterm=NONE
+hi User4                     guifg=#870000 guibg=#606060 gui=bold ctermfg=88 ctermbg=241 
 
 " Folds
 " -----
@@ -69,46 +63,44 @@ hi PMenuThumb                guifg=#ffffff guibg=#a8a8a8 gui=NONE ctermfg=15 cte
 
 " Code constructs
 " ---------------
-hi Comment                   guifg=#af875f ctermfg=240
-hi Todo                      guifg=#df5f5f guibg=NONE gui=bold ctermfg=167 ctermbg=NONE cterm=bold
+hi Comment                   guifg=#af875f ctermfg=242
+hi Todo                      guifg=#df5f5f guibg=NONE gui=bold ctermfg=167 ctermbg=NONE
 " hi Todo                      guifg=#000000 guibg=ffff00 gui=bold ctermfg=16 ctermbg=11 cterm=bold
 hi Constant                  guifg=#6D9CBE ctermfg=73
 hi Error                     guifg=#FFFFFF guibg=#990000 ctermfg=221 ctermbg=88
 hi WarningMsg                guifg=#800000 guibg=NONE ctermfg=1 ctermbg=NONE
 hi Identifier                guifg=#af5f5f gui=NONE ctermfg=221 cterm=NONE
-hi Keyword                   guifg=#af5f00 gui=NONE ctermfg=173 cterm=bold
-hi Number                    guifg=#87af5f ctermfg=107
-hi Statement                 guifg=#af5f00 gui=NONE ctermfg=173 cterm=bold
+hi Keyword                   guifg=#af5f00 gui=NONE ctermfg=172 
+hi Number                    guifg=#87af5f ctermfg=183
+hi Statement                 guifg=#af5f00 gui=NONE ctermfg=172
 hi String                    guifg=#87af5f ctermfg=107
 hi Title                     guifg=#FFFFFF ctermfg=15
-hi Type                      guifg=#df5f5f gui=NONE ctermfg=167 cterm=NONE
+hi Type                      guifg=#df5f5f gui=NONE ctermfg=208 cterm=NONE
 hi PreProc                   guifg=#ff8700 ctermfg=208
-hi Special                   guifg=#005f00 ctermfg=22
+hi Special                   guifg=#005f00 ctermfg=172
 
 " Diffs
 " -----
-hi DiffAdd                   guifg=#e4e4e4 guibg=#519F50 ctermfg=254 ctermbg=22
-hi DiffDelete                guifg=#000000 guibg=#660000 gui=bold ctermfg=16 ctermbg=52 cterm=bold
-hi DiffChange                guifg=#FFFFFF guibg=#870087 ctermfg=15 ctermbg=90
-hi DiffText                  guifg=#FFFFFF guibg=#FF0000 gui=bold ctermfg=15 ctermbg=9 cterm=bold
-
-hi diffAdded                 guifg=#008700 ctermfg=28
-hi diffRemoved               guifg=#800000 ctermfg=1
-hi diffNewFile               guifg=#FFFFFF guibg=NONE gui=bold ctermfg=15 ctermbg=NONE cterm=bold
-hi diffFile                  guifg=#FFFFFF guibg=NONE gui=bold ctermfg=15 ctermbg=NONE cterm=bold
-
+hi  DiffAdd       ctermfg=82     ctermbg=232
+hi  DiffChange    ctermfg=33      ctermbg=232
+hi  DiffDelete    ctermfg=196     ctermbg=232
+hi  DiffText      ctermfg=165     ctermbg=232
+"hi  DiffAdd       ctermfg=0     ctermbg=148
+"hi  DiffChange    ctermfg=0     ctermbg=39
+"hi  DiffDelete    ctermfg=0     ctermbg=167
+"hi  DiffText      ctermfg=0     ctermbg=220
 
 " Ruby
 " ----
 hi rubyTodo                  guifg=#df5f5f guibg=NONE gui=bold ctermfg=167 ctermbg=NONE cterm=bold
-hi rubyClass                 guifg=#FFFFFF ctermfg=15
-hi rubyConstant              guifg=#df5f5f ctermfg=167
+hi rubyClass                 guifg=#FFFFFF ctermfg=167
+hi rubyConstant              guifg=#df5f5f ctermfg=169
 hi rubyInterpolation         guifg=#FFFFFF ctermfg=15
 hi rubyBlockParameter        guifg=#dfdfff ctermfg=189
 hi rubyPseudoVariable        guifg=#ffdf5f ctermfg=221
 hi rubyStringDelimiter       guifg=#87af5f ctermfg=107
 hi rubyInstanceVariable      guifg=#dfdfff ctermfg=183
-hi rubyPredefinedConstant    guifg=#df5f5f ctermfg=167
+hi rubyPredefinedConstant    guifg=#df5f5f ctermfg=208
 hi rubyLocalVariableOrMethod guifg=#dfdfff ctermfg=189
 
 " Python
@@ -146,5 +138,3 @@ hi! link htmlEndTag           xmlEndTag
 hi checkbox guifg=#3a3a3a guibg=NONE gui=NONE ctermfg=237 ctermbg=NONE cterm=NONE
 hi checkboxDone guifg=#5fff00 guibg=NONE gui=BOLD ctermfg=82 ctermbg=NONE cterm=BOLD
 hi checkboxNotDone guifg=#005fdf guibg=NONE gui=BOLD ctermfg=26 ctermbg=NONE cterm=BOLD
-
-

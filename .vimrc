@@ -29,22 +29,32 @@ Plug 'Yggdroot/indentLine'
 Plug 'vim-python/python-syntax'
 Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
-Plug 'chrisbra/csv.vim'
 Plug 'neovimhaskell/haskell-vim'
 call plug#end()
 
-colorscheme gruvbox
+set autoindent
+
+let g:indentLine_conceallevel=2
+let g:indentLine_char = '|'
+set conceallevel=2
+
+colorscheme github "railscasts
 set background=dark
-highlight ColorColumn ctermbg=236
 set cursorline 
 highlight CursorLine   cterm=NONE ctermbg=238 ctermfg=NONE
 highlight CursorColumn cterm=NONE ctermbg=238 ctermfg=NONE
-
+hi StatusLine ctermbg=0 ctermfg=7
+hi StatusLine ctermbg=232 ctermfg=220
+autocmd VimEnter,BufWinEnter * syn match parens /[||()\[\]{}]/ | hi parens ctermfg=220
+let g:indentLine_color_term = 239
+set colorcolumn=80
+highlight ColorColumn ctermbg=238
+highlight Directory ctermfg=red
 
 set statusline=\ %F%m%r%h%w\ %([%l,%v][%p%%]\ %)
 set statusline+=lines:
 set statusline+=%L
-set t_md=
+"set t_md= " Enables BOLD text
 set runtimepath^=~/.vim/bundle/myplugin.vim
 
 nnoremap <C-z> :tabprevious<CR>
@@ -74,7 +84,6 @@ set incsearch
 " status bar
 set laststatus=2
 
-set colorcolumn=80
 
 set nowrap
 set autoread                                                                                                                                                                                    
@@ -116,17 +125,12 @@ set linespace=6
 set tabstop=2
 set shiftwidth=2
 set expandtab
-set autoindent
-
-let g:indentLine_color_term = 238
-let g:indentLine_conceallevel=2
-let g:indentLine_char = '|'
-set conceallevel=2
 
 set switchbuf+=usetab,newtab
 
 nnoremap ,ajax :-1read ~/.vim/snippets/ajax<CR>1jf'a
-nnoremap ,div :-1read ~/.vim/snippets/div<CR>f>a
+nnoremap ,allstate :-1read ~/.vim/snippets/allstate<CR>
+nnoremap ,div :-1read ~/.vim/snippets/div<CR><ESC>0v$=f>a
 nnoremap ,t :-1read ~/.vim/snippets/tag-html<CR>a
 nnoremap ,def :-1read ~/.vim/snippets/ruby-method<CR>A
 nnoremap ,gd :! clear && git diff --word-diff %:p:h<cr>
@@ -134,29 +138,31 @@ nnoremap ,diff :! clear && git diff --word-diff<cr>
 nnoremap ,gv <C-w>H
 nnoremap ,gh <C-w>J
 
-nnoremap ,f :grep -R --exclude-dir={./log,./tmp} '<C-R><C-w>' ./**<left><left>
-vnoremap ,f y:grep -R --exclude-dir={./log,./tmp} '<C-R>"' ./**
+"nnoremap ,f :grep -R --exclude-dir={./log,./tmp} '<C-R><C-w>' ./**<left><left>
+"vnoremap ,f :grep -R --exclude-dir={./log,./tmp} '<C-R>"' ./**
+nnoremap ,f :grep <C-R><C-w>
+"vnoremap ,f :grep -R --exclude-dir={./log,./tmp} '<C-R>"' ./**
 
 nnoremap ,l :call QuickfixToggle()<cr>
 com! Wrap call WrapToggle()
 "melvimelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinmelvinn
 set wildcharm=<C-z>
 nnoremap ,gf :!~/.vim/copy.py <C-R><C-w><CR>:tabnew **/*<C-R>+
+com! Ruboc :!~/.vim/rubo.py
 
 com! FormatJSON %!python -m json.tool 
+com! UnformatJSON %delete | 0put =json_encode(json_decode(@@))
 nnoremap ,d :tabe %:p:h <Bar> cw<CR>
 
-nnoremap ,w :grep -R --exclude-dir={./log,./tmp} '' ./**<left><left><left><left><left><left>
+"nnoremap ,w :grep -R --exclude-dir={./log,./tmp} '' ./**<left><left><left><left><left><left>
+nnoremap ,w :grep '' <left><left>
 
 com! QuitSession mks! ~/.vim/session.vim | qa!
 com! OpenSession source ~/.vim/session.vim
 
-
-autocmd VimEnter,BufWinEnter * syn match parens /[||()\[\]{}]/ | hi parens ctermfg=220
 hi def link jsObjectKey Label
 
 vmap '' :w !pbcopy<CR><CR>
-
 
 nnoremap <leader>m :Lexplore %:p:h<CR>
 nnoremap <leader>n :Lexplore<CR>
@@ -253,22 +259,32 @@ vnoremap <S-Up> :m '<-2<CR>gv=gv
 
 command! -nargs=+ R execute '%s/\<' . split(<q-args>, ' ')[0] . '\>/' . split(<q-args>, ' ')[1] . '/g'
 
-
-hi StatusLine ctermbg=0 ctermfg=7
-
 noremap <space> :b <right>
 noremap <C-S-h> :reg <CR>
 noremap ( <C-W><C-W>
-vnoremap // y/<C-R>"<CR>
 
 noremap -- zf
+vnoremap // y/<C-R>"<CR>
 noremap ++ za
 
 nmap <S-z> <Plug>(GitGutterNextHunk)
 nmap <S-x> <Plug>(GitGutterPrevHunk)
 nmap ,, <Plug>(GitGutterPreviewHunk)
-nmap ,+ <Plug>(GitGutterStageHunk)
-nmap ,- <Plug>(GitGutterUndoHunk)
+
+" Commenting blocks of code.
+augroup commenting_blocks_of_code
+  autocmd!
+  autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
+  autocmd FileType sh,ruby,python   let b:comment_leader = '# '
+  autocmd FileType conf,fstab       let b:comment_leader = '# '
+  autocmd FileType tex              let b:comment_leader = '% '
+  autocmd FileType mail             let b:comment_leader = '> '
+  autocmd FileType vim              let b:comment_leader = '" '
+augroup END
+
+noremap <silent> ,c :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> ,u :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
 
 noremap ,r :!clear && ruby %
 noremap ,rc :!clear && ruby -wc %
@@ -376,8 +392,6 @@ command! -nargs=1 Find call AwesomeFinder(<f-args>) | normal n
 command! -nargs=1 Html call HtmlTag(<f-args>) | normal p0f>OC==
 
 noremap ,gb  :execute "!clear && git blame " . expand('%') . " -L" . line(".") .",". (line(".") + 10)<CR>
-noremap ,gb  :execute "!clear && git blame " . expand('%') . " -L" . line(".") .",". (line(".") + 10)<CR>
-"noremap ,gbl :execute "!clear && git blame " . expand('%') . " -L" . line(".") ." | awk 'NR==1 {print $1}' | xargs git logd -" . line(".")<CR>
  
 noremap ,try :call RailsTry()<CR><bar>C<ESC>"xp
 
@@ -403,3 +417,16 @@ func! RailsTry()
   let s:res = join(s:newList, '.try(:')
   let @x = s:res
 endfun
+
+" Your vimrc
+function! GitStatus()
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf(' +%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=%{GitStatus()}
+
+" The Silver Searcher
+if executable('rg')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
